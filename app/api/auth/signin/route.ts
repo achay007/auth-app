@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
 export async function POST(req: Request){
 
     try{

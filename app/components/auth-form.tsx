@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setLoggedIn } from "../store/features/authSlice";
 
 type Props = {
   type: "signin" | "signup";
@@ -21,6 +23,7 @@ export default function AuthForm({ type }: Props) {
     const [error,setError] = useState("");
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e: React.FormEvent) =>{
         e.preventDefault();
@@ -46,6 +49,7 @@ export default function AuthForm({ type }: Props) {
                     // Handle sign-in success (e.g., redirect or show a message)
                     console.log("Sign-in successful:", data);
                     router.push("/home");
+                    dispatch(setLoggedIn(true));
                 }
 
             }

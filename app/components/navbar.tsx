@@ -3,22 +3,26 @@ import Link from "next/link";
 import { useEffect,useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useSelector,useDispatch } from "react-redux";
+import { RootState } from "../store/store";
+import { logout,setLoggedIn } from "../store/features/authSlice";
 
 export default function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function checkAuth() {
             const res = await fetch("/api/me")
             console.log("Auth check response:", res);
-            setIsLoggedIn(res.ok)
+            dispatch(setLoggedIn(res.ok))
         }
         checkAuth();
-    },[])
+    },[]);
     const handleLogout = async () => {
         await fetch("/api/auth/signout", { method: "POST" });
-        setIsLoggedIn(false);
+        dispatch(logout());
         router.push("/auth");
     };
     
