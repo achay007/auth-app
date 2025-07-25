@@ -22,6 +22,7 @@ export async function POST(req: Request){
 
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
     if(!passwordMatch){
+        console.error("Password mismatch for user:", existingUser.email);
         return new Response("Invalid password", {status: 401});
     }
     const token  = jwt.sign(
@@ -38,6 +39,7 @@ const res = new Response(JSON.stringify({token, user: existingUser}), {
         "Content-Type": "application/json"
     }
 });
+//localStorage.setItem("token", token);
 
 return res;
     }catch (error) {

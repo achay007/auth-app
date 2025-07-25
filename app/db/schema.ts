@@ -1,4 +1,5 @@
 import { date, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { foreignKey } from "drizzle-orm/pg-core";
 
 
 export const users = pgTable('users', {
@@ -8,7 +9,16 @@ export const users = pgTable('users', {
   password: varchar('password', { length: 255 }).notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   image: varchar('image', { length: 255 }),
-  createdAt: date('created_at').notNull(),
-  updatedAt: date('updated_at').notNull()
+  role: varchar('role', { length: 50 }).notNull(),
+  school: varchar("school").references(() => school.id),
+  createdAt: varchar('created_at').notNull(),
+  updatedAt: varchar('updated_at').notNull()
+  
+});
+export const school = pgTable('school', {
+
+  id: varchar('id').primaryKey(),
+  schoolName: varchar('schoolName', { length: 255 }).unique().notNull(),
+  phone: varchar('phone', { length: 255 }).unique().notNull(),
   
 });
